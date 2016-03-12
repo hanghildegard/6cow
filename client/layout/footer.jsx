@@ -3,7 +3,7 @@ Footer = React.createClass({
         return (
             <div className="footer" style={{backgroundColor: "#00BCD6", height: 116, paddingTop: 45, color: "#FFF", textAlign: "center"}}>
                     <span>
-                        6COW © 2012
+                        6COW © 2016
                     </span>
                     <span style={{paddingLeft: 40}}>
                         About us

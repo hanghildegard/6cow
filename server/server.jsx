@@ -9,9 +9,15 @@ Meteor.methods({
                 Statuses.insert({
                     text: status.text,
                     createdAt: status.createdAt,
-                    userid: status.userid,
-                    username: status.username
+                    userid: Meteor.userId(),
+                    username: Meteor.user().profile.firstname+" "+Meteor.user().profile.lastname
                 });
+            }
+        },
+        updateLogin(){
+            if (Meteor.userId())
+            {
+                Meteor.users.update({_id: Meteor.userId()}, {$set: {"profile.lastLogin": new Date()}});
             }
         }
     }

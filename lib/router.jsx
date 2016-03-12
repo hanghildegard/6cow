@@ -18,3 +18,15 @@ appGroup.route('/start', {
         ReactLayout.render(MainLayout, { content: <Welcome /> });
     }
 });
+
+appGroup.route('/profile/:userId', {
+    action() {
+        ReactLayout.render(MainLayout, { content: <Profile /> });
+    }
+});
+
+appGroup.route('/editprofile', {
+    action(){
+        ReactLayout.render(MainLayout, {content: <EditProfile />});
+    }
+})

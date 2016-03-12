@@ -5,18 +5,29 @@ var {
     Avatar,
     IconMenu,
     MenuItem,
-    IconButton,
     MoreVerticon
     } = MUI;
 
 
 AppHeader = React.createClass({
+    mixins: [ReactMeteorData],
+    getMeteorData(){
+
+        return {
+            currentUser: Meteor.user()
+        }
+    },
     goHome(){
         FlowRouter.go("/");
     },
     logout(){
         Meteor.logout();
         FlowRouter.go("/");
+    },
+    showProfile()
+    {
+        var url = "/profile/"+Meteor.userId();
+        FlowRouter.go(url);
     },
     showAccount()
     {
@@ -32,30 +43,38 @@ AppHeader = React.createClass({
 
     },
     render(){
-        let initials = (Meteor.user().profile.firstname[0]+Meteor.user().profile.lastname[0])
-        if (Meteor.user().profile.picture)
-        {
-            avatar=(<Avatar src={Meteor.user().profile.picture} />)
-        }
-        else
-        {
-            avatar=(<Avatar>{initials}</Avatar>)
+        var user = this.data.currentUser
+        var avatar = (<Avatar style={{cursor: "pointer"}}>"N/A"</Avatar>)
+        if (user) {
+            let initials = (user.profile.firstname[0] + Meteor.user().profile.lastname[0])
+            if (user.profile.picture) {
+                avatar = (<Avatar style={{cursor: "pointer"}} src={user.profile.picture}/>)
+            }
+            else {
+                avatar = (<Avatar style={{cursor: "pointer"}}>{initials}</Avatar>)
+            }
         }
 
-        let iconElementRight = (<div style={{marginTop: -10}}>
-            <FlatButton label="Blog" style={{color: "#FFF"}} onTouchTap={this.showBlog}/>
-            <FlatButton label="Travel" style={{color: "#FFF"}} onTouchTap={this.showTravel}/>
-            <FlatButton label="Forum" style={{color: "#FFF"}} onTouchTap={this.showForum}/>
+        let iconElementRight = (<div>
+
+                <FlatButton style={{marginTop: -10}} label="Blog" style={{color: "#FFF"}} onTouchTap={this.showBlog}/>
+                <FlatButton style={{marginTop: -10}} label="Travel" style={{color: "#FFF"}} onTouchTap={this.showTravel}/>
+                <FlatButton style={{marginTop: -10}} label="Forum" style={{color: "#FFF"}} onTouchTap={this.showForum}/>
             <IconMenu
-                iconButtonElement={<IconButton>{avatar}</IconButton>}
-                anchorOrigin={{horizontal: 'left', vertical: 'top'}}
-                targetOrigin={{horizontal: 'left', vertical: 'top'}}
+                iconButtonElement={<IconButton style={{marginRight: 10 }} color="#FFF" icon="message-text" />}
+                anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
+                targetOrigin={{horizontal: 'right', vertical: 'top'}}
                 >
-                <MenuItem primaryText="Dashboard" />
-                <MenuItem primaryText="Profile" />
-                <MenuItem primaryText="Messages" />
-                <MenuItem primaryText="Settings" />
-                <MenuItem primaryText="Sign out" onTouchTap={this.logout} />
+            </IconMenu>
+            <IconMenu
+                iconButtonElement={avatar}
+                anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
+                targetOrigin={{horizontal: 'right', vertical: 'top'}}
+                >
+                <MenuItem primaryText="Dashboard" onTouchTap={this.goHome}/>
+                <MenuItem primaryText="Profile" onTouchTap={this.showProfile}/>
+                <MenuItem primaryText="Settings"/>
+                <MenuItem primaryText="Sign out" onTouchTap={this.logout}/>
             </IconMenu>
 
         </div>)

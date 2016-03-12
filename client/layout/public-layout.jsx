@@ -3,7 +3,9 @@ PublicLayout = React.createClass({
         return (
             <div>
                 <PublicHeader />
+                <div className="content">
                 {this.props.children}
+                </div>
             </div>
         );
     }

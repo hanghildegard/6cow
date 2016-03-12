@@ -1,6 +1,10 @@
 var {
     Paper,
-    Avatar
+    Avatar,
+    Card,
+    CardHeader,
+    CardText,
+    Divider
     } = MUI;
 
 Status = React.createClass({
@@ -40,26 +44,18 @@ Status = React.createClass({
         }
 
         return (
-            <div>
-                <Paper style={paperstyle} zDepth={3} style={{width: "100%", marginBottom: 5}}>
-                    <div className="row" style={{verticalAlign: "middle"}}>
-                        <div className="col-1" style={{verticalAlign: "middle"}}>
-                            {avatar}
-                        </div>
-                        <div className="col-11">
-                            <div className="row">
-                                <h4>{this.props.status.username}</h4>
-                            </div>
-                            <div className="row">
-                                {this.props.status.createdAt.toLocaleString()}
-                            </div>
-                        </div>
-                    </div>
-                    <hr/>
-                    <div className="row" style={{paddingBottom: 20, paddingTop: 10, paddingLeft: 10}}>
+            <div style={{paddingBottom: 15}}>
+                <Card zDepth={0}>
+                    <CardHeader
+                        title={this.props.status.username}
+                        subtitle={this.props.status.createdAt.toLocaleString()}
+                        avatar={avatar}
+                        />
+                    <CardText>
                         {this.props.status.text}
-                    </div>
-                </Paper>
+                    </CardText>
+                </Card>
+                <Divider />
             </div>
         );
     }
